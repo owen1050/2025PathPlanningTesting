@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 
 /**
@@ -16,6 +19,11 @@ public class Robot extends TimedRobot {
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
+
+   Drivebase drivebase = new Drivebase();
+   Joystick driverJoystick = new Joystick(0);
+   boolean pathInited = false;
+
   public Robot() {}
 
   @Override
@@ -31,10 +39,27 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {}
 
   @Override
-  public void teleopInit() {}
+  public void teleopInit() {
+    drivebase.swerveDrive.resetOdometry(new Pose2d(1, 1, new Rotation2d()));
+  }
 
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    double speed = -3;
+    if(driverJoystick.getRawButton(1)){
+      if(!pathInited){
+        drivebase.initPath();
+        pathInited = true;
+      }
+      drivebase.pathToTraj();
+      drivebase.followPath();
+    } else {
+      drivebase.driveWithVelocity(driverJoystick.getRawAxis(1) * speed, driverJoystick.getRawAxis(0) * speed, driverJoystick.getRawAxis(4) * -12, true);
+      pathInited = false;
+      drivebase.pathValid = false;
+    }
+    
+  }
 
   @Override
   public void disabledInit() {}
