@@ -54,7 +54,11 @@ public class Robot extends TimedRobot {
       drivebase.pathToTraj();
       drivebase.followPath();
     } else {
-      drivebase.driveWithVelocity(driverJoystick.getRawAxis(1) * speed, driverJoystick.getRawAxis(0) * speed, driverJoystick.getRawAxis(4) * -12, true);
+      double v = driverJoystick.getRawAxis(1) * driverJoystick.getRawAxis(1) + driverJoystick.getRawAxis(0) * driverJoystick.getRawAxis(0) + driverJoystick.getRawAxis(4) * driverJoystick.getRawAxis(4);
+      if(v > 0.1)
+        drivebase.driveWithVelocity(driverJoystick.getRawAxis(1) * speed, driverJoystick.getRawAxis(0) * speed, driverJoystick.getRawAxis(4) * -12, true);
+      else
+        drivebase.driveWithVelocity(0, 0, 0, pathInited);
       pathInited = false;
       drivebase.pathValid = false;
     }
