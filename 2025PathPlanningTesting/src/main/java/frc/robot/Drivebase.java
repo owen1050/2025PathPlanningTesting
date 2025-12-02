@@ -45,7 +45,7 @@ public class Drivebase {
     public PIDController vYPidController = new PIDController(10, 0, 0);
     public PIDController vRPidController = new PIDController(0.8, 0, 0);
 
-    public Translation2d goalTranslation2d = new Translation2d(5.064, 5.295);
+    public Translation2d goalTranslation2d = new Translation2d(5.51, 5.65);
 
     public Drivebase() {
         File swerveJsonDirectory = new File(Filesystem.getDeployDirectory(), "swerve");
