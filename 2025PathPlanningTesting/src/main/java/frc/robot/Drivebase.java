@@ -45,7 +45,7 @@ public class Drivebase {
     public PIDController vYPidController = new PIDController(10, 0, 0);
     public PIDController vRPidController = new PIDController(0.8, 0, 0);
 
-    public Translation2d goalTranslation2d = new Translation2d(1.5, 1.5);
+    public Translation2d goalTranslation2d = new Translation2d(5.064, 5.295);
 
     public Drivebase() {
         File swerveJsonDirectory = new File(Filesystem.getDeployDirectory(), "swerve");
@@ -68,7 +68,7 @@ public class Drivebase {
 
     public void pathToTraj() {
         if (Pathfinding.isNewPathAvailable()) {
-            path = Pathfinding.getCurrentPath(pathConstraints, new GoalEndState(0, new Rotation2d()));
+            path = Pathfinding.getCurrentPath(pathConstraints, new GoalEndState(0, new Rotation2d(-Math.PI*2/3)));
 
             try {
                 if (path != null) {
@@ -142,7 +142,7 @@ public class Drivebase {
     public void replaceFirstWaypointInPath() {
         List<Waypoint> points = path.getWaypoints();
         Translation2d currentPos = swerveDrive.field.getRobotPose().getTranslation();
-        double factor = 0.4;
+        double factor = 0.5;
         double dx = swerveDrive.getFieldVelocity().vxMetersPerSecond * factor;
         double dy = swerveDrive.getFieldVelocity().vyMetersPerSecond * factor;
         Waypoint newWaypoint = new Waypoint(null, points.get(0).anchor(),
@@ -153,6 +153,6 @@ public class Drivebase {
                 + swerveDrive.getFieldVelocity().vyMetersPerSecond * swerveDrive.getFieldVelocity().vyMetersPerSecond);
         path = new PathPlannerPath(points, pathConstraints,
                 new IdealStartingState(robotV, swerveDrive.getOdometryHeading()),
-                new GoalEndState(0, new Rotation2d()));
+                new GoalEndState(0,  new Rotation2d(-Math.PI*2/3)));
     }
 }
