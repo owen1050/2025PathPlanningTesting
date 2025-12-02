@@ -47,11 +47,6 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     double speed = -3;
     if(driverJoystick.getRawButton(1)){
-      if(!pathInited){
-        drivebase.initPath();
-        pathInited = true;
-      }
-      drivebase.pathToTraj();
       drivebase.followPath();
     } else {
       double v = driverJoystick.getRawAxis(1) * driverJoystick.getRawAxis(1) + driverJoystick.getRawAxis(0) * driverJoystick.getRawAxis(0) + driverJoystick.getRawAxis(4) * driverJoystick.getRawAxis(4);
